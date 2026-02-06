@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from .models import Movie
 
 
-def index(request):
-    pass
+def start(request):
+    return render(request, "booking/start_project.html")
 
 def movie_list(request):
     movies = Movie.objects.all()
