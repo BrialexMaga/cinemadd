@@ -10,8 +10,8 @@ class MovieListViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_movies_are_listed(self):
-        Movie.objects.create(name="Interstellar", duration_seconds=11)
-        Movie.objects.create(name="Inception", duration_seconds=12)
+        Movie.objects.create(name="Interstellar", duration_minutes=11)
+        Movie.objects.create(name="Inception", duration_minutes=12)
 
         response = self.client.get(reverse("booking:movie-list"))
 
@@ -19,7 +19,7 @@ class MovieListViewTests(TestCase):
         self.assertContains(response, "Inception")
     
     def test_screenings_are_shown_under_movies(self):
-        movie = Movie.objects.create(name="Interstellar", duration_seconds=11)
+        movie = Movie.objects.create(name="Interstellar", duration_minutes=11)
         room = Room.objects.create(number=2)
 
         Screening.objects.create(
@@ -37,7 +37,7 @@ class MovieListViewTests(TestCase):
 
 class SeatSelectorViewTest(TestCase):
     def test_seat_selector_page_exist(self):
-        movie = Movie.objects.create(name="Inception", duration_seconds = 11)
+        movie = Movie.objects.create(name="Inception", duration_minutes = 11)
         room = Room.objects.create(number = 1)
         screening = Screening.objects.create(
             movie = movie,
@@ -48,7 +48,7 @@ class SeatSelectorViewTest(TestCase):
 
         url = reverse("booking:seat-selector", args=[screening.id])
         response = self.client.get(url)
-        
+
         self.assertEqual(response.status_code, 200)
     
     
