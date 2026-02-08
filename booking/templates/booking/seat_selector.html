@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Seat Selector{% endblock %}
+
+{% block content %}
+<main>
+    <p><a href="{% url 'booking:movie-list' %}">Back</a></p>
+    <h1>{{ screening.movie.name }}</h1>
+    <p>Room {{ screening.room.number }}</p>
+    <p>{{ screening.start_time }}</p>
+</main>
+{% endblock content %}

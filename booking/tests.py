@@ -33,3 +33,22 @@ class MovieListViewTests(TestCase):
 
         self.assertContains(response, "Interstellar")
         self.assertContains(response, 2)
+    
+
+class SeatSelectorViewTest(TestCase):
+    def test_seat_selector_page_exist(self):
+        movie = Movie.objects.create(name="Inception", duration_seconds = 11)
+        room = Room.objects.create(number = 1)
+        screening = Screening.objects.create(
+            movie = movie,
+            room = room,
+            start_time = timezone.now(),
+            base_price_cents = 1200
+        )
+
+        url = reverse("booking:seat-selector", args=[screening.id])
+        response = self.client.get(url)
+        
+        self.assertEqual(response.status_code, 200)
+    
+    

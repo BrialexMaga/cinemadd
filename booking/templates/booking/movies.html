@@ -9,7 +9,7 @@
         <h2>{{ movie.name }}</h2>
         <ul>
         {% for screening in movie.screening_set.all %}
-            <li>Room {{ screening.room.number }} - {{ screening.start_time }}</li>
+            <li><a href="{% url 'booking:seat-selector' screening.id %}">Room {{ screening.room.number }} - {{ screening.start_time }}</a></li>
         {% endfor %}
         </ul>
         <h3>Duration: {{ movie.duration_seconds }} seconds</h3>
