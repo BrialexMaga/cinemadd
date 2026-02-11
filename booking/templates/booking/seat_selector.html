@@ -3,10 +3,52 @@
 {% block title %}Seat Selector{% endblock %}
 
 {% block content %}
+
+<style>
+    table, th, td{
+        border: 1px black solid;
+    }
+
+    table{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    section{
+        text-align: center;
+    }
+</style>
+
 <main>
-    <p><a href="{% url 'booking:movie-list' %}">Back</a></p>
-    <h1>{{ screening.movie.name }}</h1>
-    <p>Room {{ screening.room.number }}</p>
-    <p>{{ screening.start_time }}</p>
+    <section>
+        <p><a href="{% url 'booking:movie-list' %}">Back</a></p>
+        <h1>{{ screening.movie.name }}</h1>
+        <p>Room {{ screening.room.number }}</p>
+        <p>{{ screening.start_time }}</p>
+    </section>
+
+    {% if seats_by_row %}
+    <section>
+        <form action="#" method="POST">
+        {% csrf_token %}
+            <p>
+                Selected Seats: <input type="text" name="selected_seats" id="selected_seats"> <input type="submit" value="Select seats">
+            </p>
+        </form>
+    </section>
+
+    <section>
+        <table>
+            <th colspan="5">Screen</th>
+            {% for row, seats in seats_by_row.items %}
+            <tr>
+            {% for ss in seats %}
+                <td><a href="#">{{ ss.seat.code_only }} - {{ ss.seat_status }}</a></td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    {% endif %}
 </main>
 {% endblock content %}

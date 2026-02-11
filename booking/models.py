@@ -41,6 +41,10 @@ class Seat(models.Model):
     row_letter = models.CharField(max_length=2)
     column_number = models.PositiveSmallIntegerField()
 
+    @property
+    def code_only(self):
+        return f"{self.row_letter}{self.column_number}"
+
     def __str__(self):
         return f"Seat {self.row_letter}{self.column_number}"
 
