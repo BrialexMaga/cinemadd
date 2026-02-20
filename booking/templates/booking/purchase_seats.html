@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Screening Movies{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Purchase</h1>
+    <h2> Booking id: {{ booking_id }} </h2>
+    <ul>
+        {% for seat in booking_details %}
+        <li>{{ seat.screening_seat }}</li>
+        {% endfor %}
+    </ul>
+    <form action="" method="POST">
+        <input type="submit" value="Pay {{ total_price_paid }}">
+    </form>
+</main>
+{% endblock content %}

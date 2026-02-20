@@ -31,6 +31,27 @@ def seat_selector(request, pk):
     
     return render(request, "booking/seat_selector.html", context)
 
+def purchase_seats(request, pk):
+    booking_details = BookingDetail.objects.filter(booking=pk).select_related("screening_seat").order_by("screening_seat__seat__row_letter", "screening_seat__seat__column_number")
+    booking_detail = BookingDetail.objects.get(booking=pk)
+    screening = get_object_or_404(Screening, pk=booking_detail.screening_seat.screening.id)
+    total_price_paid = 0
+
+    for detail in booking_details:
+        total_price_paid += detail.price_paid_cents
+    
+    total_price_paid /= 100
+
+    context = {
+        "screening": screening,
+        "booking_details": booking_details,
+        "total_price_paid": total_price_paid,
+        "booking_id": pk,
+    }
+    
+    return render(request, "booking/purchase_seats.html", context)
+
+
 def reserve_seats(request, pk):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
@@ -80,7 +101,7 @@ def reserve_seats(request, pk):
         booking.save()
         '''
 
-    return redirect("booking:booking-sumary", pk=booking.id)
+    return redirect("booking:purchase-seats", pk=booking.id)
 
 def booking_sumary(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
