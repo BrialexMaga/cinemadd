@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-from booking.models import Movie, Room, Screening, Seat, ScreeningSeat, TypeSeat
+from datetime import timedelta
+from booking.models import Movie, Room, Screening, Seat, ScreeningSeat, TypeSeat, Booking, BookingDetail
 
 
 class ReserveSeatsTest(TestCase):
@@ -41,4 +42,38 @@ class ReserveSeatsTest(TestCase):
             seat=self.seat2,
         )
 
-        self.url = reverse("reserve-seats", args=[self.screening.id])
+        self.url = reverse("booking:reserve-seats", args=[self.screening.id])
+    
+    def test_successful_reservation_holds_seats_and_creates_booking(self):
+        response = self.client.post(self.url, {
+            "selected_seats": f"{self.seat1.id},{self.seat2.id}"
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Booking.objects.count(), 1)
+        self.assertEqual(BookingDetail.objects.count(), 2)
+
+        self.ss_a1.refresh_from_db()
+        self.ss_a2.refresh_from_db()
+
+        self.assertEqual(self.ss_a1.seat_status, ScreeningSeat.Status.HELD)
+        self.assertEqual(self.ss_a2.seat_status, ScreeningSeat.Status.HELD)
+
+        self.assertIsNotNone(self.ss_a1.held_until)
+    
+
+    def test_reservation_fails_if_seat_not_available(self):
+        self.ss_a1.seat_status = ScreeningSeat.Status.HELD
+        self.ss_a1.save()
+
+        response = self.client.post(self.url, {
+            "selected_seats": f"{self.seat1.id}"
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Booking.objects.count(), 0)
+        self.assertEqual(BookingDetail.objects.count(), 0)
+
+    def test_get_method_not_allowed(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 405)

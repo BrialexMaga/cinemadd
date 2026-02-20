@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Screening Movies{% endblock %}
+
+{% block content %}
+<main>
+    <h1>Booking Sumary</h1>
+    <h2> {{ booking.id }} </h2>
+    <ul>
+        {% for seat in seats %}
+        <li>{{ seat.screening_seat }}</li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock content %}
