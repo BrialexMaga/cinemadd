@@ -11,5 +11,6 @@
         <li>{{ seat.screening_seat }}</li>
         {% endfor %}
     </ul>
+    <a href="{% url 'booking:movie-list' %}"><button>Return to movies</button></a>
 </main>
 {% endblock content %}

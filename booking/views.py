@@ -87,21 +87,28 @@ def reserve_seats(request, pk):
                 screening_seat=seat,
                 price_paid_cents=seat.screening.base_price_cents + seat.seat.type_seat.price_modifier_cents
             )
-        
-        # Payment confirmation
 
-        '''
-        # If payment was successful
-        for seat in seats:
-            seat.seat_status = ScreeningSeat.Status.SOLD
-            seat.held_until = None
-            seat.save()
+    return redirect("booking:purchase-seats", pk=booking.id)
+
+def payment(request, pk):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    
+    booking = get_object_or_404(Booking, pk=pk)
+    booking_details = BookingDetail.objects.select_related("screening_seat").select_for_update().filter(booking=pk)
+
+    with transaction.atomic():
+        for detail in booking_details:
+            ss = detail.screening_seat
+            ss.seat_status = ScreeningSeat.Status.SOLD
+            ss.held_until = None
+            ss.save()
         
         booking.status = Booking.Status.FINISHED
         booking.save()
-        '''
 
-    return redirect("booking:purchase-seats", pk=booking.id)
+    return redirect("booking:booking-sumary", pk=booking.id)
+
 
 def booking_sumary(request, pk):
     booking = get_object_or_404(Booking, pk=pk)

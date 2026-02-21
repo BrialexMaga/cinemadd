@@ -11,7 +11,8 @@
         <li>{{ seat.screening_seat }}</li>
         {% endfor %}
     </ul>
-    <form action="" method="POST">
+    <form action="{% url 'booking:payment-finished' booking_id %}" method="POST">
+        {% csrf_token %}
         <input type="submit" value="Pay {{ total_price_paid }}">
     </form>
 </main>
