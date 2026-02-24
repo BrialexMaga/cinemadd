@@ -5,6 +5,7 @@ class Movie(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100)
     duration_minutes = models.PositiveSmallIntegerField()
+    poster_url = models.URLField(blank=True)
 
     def __str__(self):
         return self.name
