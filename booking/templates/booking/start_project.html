@@ -4,17 +4,23 @@
 
 {% block content %}
 <main>
-    <p style="text-align: center;">
-        CinemaDD simulates the full cinema booking experience. You can browse movies and screening times, 
-        <span style="display: block;">select multiple seats in a single booking, 
-        and complete the reservation flow to receive a purchase receipt. </span>
-
-        <span style="display: block; padding-top: 8px;">
+    <div class="container fs-5">
+        <p class="text-center text-wrap">
+            Cinemadd simulates the full cinema booking experience. You can browse movies and screening times, 
+            select multiple seats in a single booking, 
+            and complete the reservation flow to receive a purchase receipt.
+        </p>
+        <p class="text-center text-wrap">
             The system models realistic seat states such as available, held, and sold, using preloaded sample data so you can test the behavior right away.
-        </span>
+        </p>
 
-        <span style="display: block; padding-top: 20px;">Try it?</span>
-    </p>
-    <p style="text-align: center;"><a href="{% url 'booking:movie-list' %}">START</a></p>
+        <p class="text-center pt-5">
+            Try it?
+        </p>
+        
+        <p class="text-center">
+            <a class="btn btn-outline-primary fs-5 px-5" role="button" href="{% url 'booking:movie-list' %}">START</a>
+        </p>
+    </div>
 </main>
 {% endblock content %}

@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>{% block title %}CinemaDD{% endblock %}</title>
 </head>
 <body>
-    <header style="border: 1px solid blue;">
-        <center>CinemaDD</center>
+    <header class="d-flex border border-primary justify-content-center mb-5 bg-primary text-white">
+        <p class="d-flex align-items-center fs-5 py-1 mb-0">Cinemadd</p>
     </header>
 
     {% block content %}{% endblock %}
 
-    <footer style="border: 1px solid blue;">
-        <center>All rights reserved ©</center>
+    {% block footer %}
+    <!--
+    <footer class="d-flex border border-primary justify-content-center mt-5 bg-primary text-white">
+        <p class="d-flex align-items-center mb-0">All rights not reserved ©</p>
     </footer>
+    -->
+    {% endblock footer %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
