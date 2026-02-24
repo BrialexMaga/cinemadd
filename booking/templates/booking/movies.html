@@ -8,7 +8,7 @@
     {% for movie in movies %}
         <div class="row py-3 ps-1 pe-3 bg-body-tertiary border border-secondary-subtle rounded-1">
             <div class="d-flex justify-content-center col-md-2">
-                <img class="img-fluid img-thumbnail" height="200px" width="130" src="https://www.animationmagazine.net/wordpress/wp-content/uploads/Zootopia-2_Teaser_2nd_Knot_1s_v5.0_Mech3.jpg" alt="Movie image">
+                <img class="img-fluid img-thumbnail" height="200px" width="130" src="{{ movie.poster_url }}" alt="Movie image">
             </div>
 
             <div class="col">
