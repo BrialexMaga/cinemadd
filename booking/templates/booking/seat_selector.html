@@ -2,53 +2,76 @@
 
 {% block title %}Seat Selector{% endblock %}
 
+{% block add-to-header %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'booking/css/seat_selector.css' %}">
+{% endblock add-to-header %}
+
+{% block header %}
+<header class="d-flex border border-primary justify-content-center mb-0 bg-primary text-white">
+    <p class="d-flex align-items-center fs-5 py-1 mb-0">Cinemadd</p>
+</header>
+{% endblock header %}
+
 {% block content %}
-
-<style>
-    table, th, td{
-        border: 1px black solid;
-    }
-
-    table{
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    section{
-        text-align: center;
-    }
-</style>
-
 <main>
-    <section>
-        <p><a href="{% url 'booking:movie-list' %}">Back</a></p>
-        <h1>{{ screening.movie.name }}</h1>
-        <p>Room {{ screening.room.number }}</p>
-        <p>{{ screening.start_time }}</p>
-    </section>
+    <div class="row py-1 ps-1 pe-3 bg-body-tertiary border border-secondary-subtle rounded-1">
+        <div class="d-flex flex-column gap-2 flex-wrap">
+            <div class="text-center">
+                <h1 class="m-0">{{ screening.movie.name }}</h2>
+            </div>
+            <div class="text-center">
+                <h6 class="m-0 fs-5 fw-semibold">Room {{ screening.room.number }}</h6>
+            </div>
+            <div class="text-center">
+                <h6 class="m-0 fst-italic">Start at: {{ screening.start_time }}</h6>
+            </div>
+        </div>
+    </div>
+
+    <p class="ms-5 my-3"><a class="btn btn-outline-secondary" role="link" href="{% url 'booking:movie-list' %}" >Back</a></p>
 
     {% if seats_by_row %}
-    <section>
+    <section class="container my-3">
         <form action="{% url 'booking:reserve-seats' screening.id %}" method="POST">
-        {% csrf_token %}
-            <p>
-                Selected Seats: <input type="text" name="selected_seats" id="selected_seats"> <input type="submit" value="Select seats">
-            </p>
+            {% csrf_token %}
+            <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap bg-dark-subtle py-4 px-5">
+                <p class="text-center m-0">Selected Seats: </p>
+                <input class="flex-grow-1" type="text" name="selected_seats" id="selected_seats"> 
+                <input class="btn btn-primary btn-lg" type="submit" value="Select seats">
+            </div>
         </form>
     </section>
 
-    <section>
-        <table>
-            <th colspan="5">Screen</th>
-            {% for row, seats in seats_by_row.items %}
-            <tr>
-            {% for ss in seats %}
-                <td><a href="#">{{ ss.seat.code_only }} - {{ ss.seat_status }} - id {{ ss.id }}</a></td>
-            {% endfor %}
-            </tr>
-            {% endfor %}
+    <section class="d-flex justify-content-center mt-5">
+        <table class="table table-bordered text-center align-middle cinema-table">
+            <thead>
+                <tr><th colspan="5" class="screen-header">Screen</th></tr>
+            </thead>
+            <tbody>
+                {% for row, seats in seats_by_row.items %}
+                <tr>
+                    {% for ss in seats %}
+                    <td class="seat-cell 
+                    {% if ss.seat_status == 2 %}seat-held
+                    {% elif ss.seat_status == 3 %}seat-sold
+                    {% endif %}">
+                        <a href="#" class="seat-link {% if ss.seat_status > 1 %}disabled{% endif %}">
+                            {{ ss.seat.code_only }}<br>
+                            {{ ss.seat_status }}<br>
+                            id {{ ss.id }}
+                        </a>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </section>
+    {% endif %}
+
+    {% if not seats_by_row %}
+    <p class="text-center">There are not seats available</p>
     {% endif %}
 </main>
 {% endblock content %}

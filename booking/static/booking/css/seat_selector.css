@@ -1,0 +1,68 @@
+.cinema-table {
+    border: 1px solid black;
+    width: auto;
+}
+
+.cinema-table th,
+.cinema-table td {
+    border: 1px solid black !important;
+}
+
+.screen-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: #f8f9fa;
+}
+
+.seat-cell {
+    width: 90px;
+    height: 90px;
+    padding: 0 !important;
+}
+
+.seat-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: black;
+    font-size: 0.85rem;
+}
+
+.seat-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Soft yellow for held seats */
+.seat-held {
+    background-color: #fff3cd !important;
+}
+
+/* Soft red for sold seats */
+.seat-sold {
+    background-color: #f8d7da !important;
+}
+
+/* Optional: prevent hover from overriding sold/held colors */
+.seat-held .seat-link:hover {
+    background-color: #ffecb5;
+}
+
+.seat-held .seat-link {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.seat-sold .seat-link:hover {
+    background-color: #f5c2c7;
+}
+
+.seat-sold .seat-link {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
