@@ -113,9 +113,12 @@ def payment(request, pk):
 def booking_sumary(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
     seats = get_list_or_404(BookingDetail, booking=booking)
+    data = seats[0]
+    screening = data.screening_seat.screening
     context = {
         "booking": booking,
         "seats": seats,
+        "screening": screening,
     }
 
     return render(request, "booking/booking_sumary.html", context)

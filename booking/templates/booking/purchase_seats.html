@@ -4,16 +4,20 @@
 
 {% block content %}
 <main>
-    <h1>Purchase</h1>
-    <h2> Booking id: {{ booking_id }} </h2>
-    <ul>
-        {% for seat in booking_details %}
-        <li>{{ seat.screening_seat }}</li>
-        {% endfor %}
-    </ul>
-    <form action="{% url 'booking:payment-finished' booking_id %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Pay {{ total_price_paid }}">
-    </form>
+    <section class="container">
+        <div class="text-center">
+            <h2>Seats selected:</h2>
+            <ul class="no-bullets">
+                {% for seat in booking_details %}
+                <li>{{ seat.screening_seat }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <form class="d-flex justify-content-center mt-5" action="{% url 'booking:payment-finished' booking_id %}" method="POST">
+            {% csrf_token %}
+            <input class="btn btn-primary" type="submit" value="Pay ${{ total_price_paid }}">
+        </form>
+    </section>
 </main>
 {% endblock content %}

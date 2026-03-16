@@ -4,13 +4,26 @@
 
 {% block content %}
 <main>
-    <h1>Booking Sumary</h1>
-    <h2> {{ booking.id }} </h2>
-    <ul>
-        {% for seat in seats %}
-        <li>{{ seat.screening_seat }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'booking:movie-list' %}"><button>Return to movies</button></a>
+    <section class="container text-center">
+        <h1 class="fs-1 mb-3">Sumary</h1>
+        <h2 class="fs-4">Booking Id: </h2>
+        <p>{{ booking.id }}</p>
+        <h2 class="fs-4">Movie:</h2>
+        <p>{{ screening.movie }}</p>
+        <h2 class="fs-4">Room:</h2>
+        <p>{{ screening.room.number }}</p>
+        <h2 class="fs-4">Starting Time:</h2>
+        <p>{{ screening.start_time }}</p>
+        <h2 class="fs-4">Seats Booked:</h2>
+        <ul class="no-bullets p-0">
+            {% for seat in seats %}
+            <li>{{ seat.screening_seat.seat.code_only }}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="d-flex justify-content-center mt-5">
+            <a class="btn btn-primary" href="{% url 'booking:movie-list' %}">Return to movies</a>
+        </div>
+    </section>
 </main>
 {% endblock content %}
